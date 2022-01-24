@@ -1,3 +1,4 @@
+
 var questionBoxEl = document.querySelector("#question");
 var buttonEl = document.querySelector("#answer-buttons");
 console.log(questionBoxEl);
@@ -49,25 +50,18 @@ var questions = [{
     { answer: "console log", correct: true }]
 }
 ]
-// WHEN I click the Start button
 
-// function startTimer() {
-//     let minutes = Math.floor(counter / 60);
-//     let seconds = counter % 60;
-//     console.log(minutes, seconds)
-//     timeEl.innerHTML = "Time left:" + minutes + ":" + seconds 
-//     counter--
-//     if (counter <= 0) {
-//         alert("Your time is up!");
-//         clearInterval
-//     }
-// }
-
-
-//     else if (currentQuestion < 1) {
-//         alert("Quiz Complete. See your score!")
-//     }
-// }
+function startTimer() {
+    let minutes = Math.floor(counter / 60);
+    let seconds = counter % 60;
+    console.log(minutes, seconds)
+    timeEl.innerHTML = "Time left:" + minutes + ":"+ seconds 
+    counter--
+    if (counter <= 0) {
+        alert("Your time is up!");
+        clearInterval
+    }
+}
 
 
 console.log(questions);
@@ -81,7 +75,7 @@ function startQuiz(event) {
 }
 
 
-// THEN a timer starts and I am presented with a question
+
 
 function viewQuestion() {
     var currentQuestion = questions[questionsIndex];
@@ -130,12 +124,9 @@ function selectAnswer(event) {
     }
 
 
+
+
 }
-
-
-
-
-// var nextQuestion = questions[questionsIndex++];
 // Determine if User selection is right/wrong
 
 
@@ -159,7 +150,6 @@ function selectAnswer(event) {
 // Switch to High Score page
 
 
-
 function endQuiz() {
     if (counter === 0) {
         clearInterval;
@@ -167,8 +157,8 @@ function endQuiz() {
 }
 
 
+
 buttonEl.addEventListener("click", selectAnswer)
 startEl.addEventListener("click", startQuiz)
-//
-// 
+
 
