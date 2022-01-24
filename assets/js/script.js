@@ -1,75 +1,83 @@
-// GIVEN I am taking a code quiz
-var questionBoxEl = document.getElementById("question")
-var button1El = document.getElementById("btn1")
-var button2El = document.getElementById("btn2")
-var button3El = document.getElementById("btn3")
-var button4El = document.getElementById("btn4")
-var startEl = document.getElementById("start-btn")
+var questionBoxEl = document.querySelector("#question");
+var buttonEl = document.querySelector("#answer-buttons");
+console.log(questionBoxEl);
+var startEl = document.querySelector("#start-btn");
+var formEl = document.querySelector("#answer-options")
+var timeEl = document.querySelector("#time")
 
 var counter = 75;
+setInterval(startTimer, 1000);
 var isRunning = false;
 
-var questionsIndex = 0
+var questionsIndex = 0;
 
 var questions = [{
 
     Question: "Commonly used data types do not include:",
-    answer1: "strings",
-    answer2: "booleans",
-    answer3: "alerts",
-    answer4: "numbers",
+    choices: [
+        { answer: "strings", correct: false },
+        { answer: "booleans", correct: false },
+        { answer: "alerts", correct: true },
+        { answer: "numbers", correct: false },]
 },
 {
-    Question: "The condition an if/else is enclosed with blank",
-    answer1: "quotes",
-    answer2: "curly brackets",
-    answer3: "parentheses",
-    answer4: "square brackets"
+    Question: "The condition an if/else is enclosed with _________",
+    choices: [{ answer: "quotes", correct: false },
+    { answer: "curly brackets", correct: false },
+    { answer: "parentheses", correct: true },
+    { answer: "square brackets", correct: false }]
 },
 {
     Question: "Arrays in Javascript Can Be Used To Store",
-    answer1: "numbers and strings",
-    answer2: "booleans",
-    answer3: "other arrays",
-    answer4: "all of the above"
+    choices: [{ answer: "numbers and strings", correct: false },
+    { answer: "booleans", correct: false },
+    { answer: "other arrays", correct: false },
+    { answer: "all of the above", correct: true }]
 },
 {
-    Question: "String values must be enclosed within blank",
-    answer1: "commas",
-    answer2: "curly brackets",
-    answer3: "quotes",
-    answer4: "parentheses"
+    Question: "String values must be enclosed within ________",
+    choices: [{ answer: "commas", correct: false },
+    { answer: "curly brackets", correct: false },
+    { answer: "quotes", correct: true },
+    { answer: "parentheses", correct: false }]
 },
 {
     Question: "A very useful tool used during development and debugging for printing content to the debugger is:",
-    answer1: "Javascript",
-    answer2: "terminal/bash",
-    answer3: "for loops",
-    answer4: "console log"
+    choices: [{ answer: "Javascript", correct: false },
+    { answer: "terminal/bash", correct: false },
+    { answer: "for loops", correct: false },
+    { answer: "console log", correct: true }]
 }
 ]
 // WHEN I click the Start button
 
-function timer() {
-    counter--
-    if (counter <= 0) {
-        alert("Your time is up!");
-    }
-    else if (currentQuestion < 1 ) {
-        alert("Quiz Complete. See your score!")
-    }
-}
+// function startTimer() {
+//     let minutes = Math.floor(counter / 60);
+//     let seconds = counter % 60;
+//     console.log(minutes, seconds)
+//     timeEl.innerHTML = "Time left:" + minutes + ":" + seconds 
+//     counter--
+//     if (counter <= 0) {
+//         alert("Your time is up!");
+//         clearInterval
+//     }
+// }
 
 
+//     else if (currentQuestion < 1) {
+//         alert("Quiz Complete. See your score!")
+//     }
+// }
 
+
+console.log(questions);
 
 function startQuiz(event) {
-    var startCountdown = setInterval(timer, 1000);
+    startTimer ()
 
 
 
     viewQuestion();
-
 }
 
 
@@ -77,53 +85,89 @@ function startQuiz(event) {
 
 function viewQuestion() {
     var currentQuestion = questions[questionsIndex];
+    console.log(currentQuestion);
     questionBoxEl.textContent = currentQuestion.Question;
-    button1El.textContent = currentQuestion.answer1;
-    button2El.textContent = currentQuestion.answer2;
-    button3El.textContent = currentQuestion.answer3;
-    button4El.textContent = currentQuestion.answer4;
+    currentQuestion.choices.forEach((choice) => {
+        const label = document.createElement("label");
+       
+        label.innerHTML = choice.answer;
+        label.htmlFor = choice.answer;
+        const radio = document.createElement("input");
+        radio.setAttribute("type", "radio");
+        radio.setAttribute("id", choice.answer);
+        radio.setAttribute("value", choice.answer);
+        radio.setAttribute("name", "choice");
+        formEl.appendChild(radio);
+        formEl.appendChild(label);
+    })
+}
 
-
-    for (let i = 0; i < currentQuestion.answer; i++) {
+function selectAnswer(event) {
+    let selectedValue = ""
+    const choices = document.getElementsByName("choice") 
+    for (let index = 0; index < choices.length && !selectedValue; index++) {
+        const element = choices[index]; 
+        console.log(element.checked)
+        console.log(element.value)
+        if (element.checked === true) {
+            selectedValue = element.value
+        }
 
     }
+    var currentQuestion = questions[questionsIndex];
+    let correctValue = ""
+    for (let index = 0; index < currentQuestion.choices.length && !correctValue; index++) {
+        const element = currentQuestion.choices[index];
+        if (element.correct === true) {
+            correctValue = element.answer 
+        }
+    }
+    if (selectedValue === correctValue) {
+        console.log("yeah, you are smart")
 
+    } else {
+        console.log("Not so much.")
+    }
 
 
 }
 
-// WHEN I answer a question
-
-
-function selectAnswer() { }
-
-var nextQuestion = questions[questionsIndex++];
-
-
-// THEN I am presented with another question
 
 
 
-// WHEN I answer a question incorrectly
-// THEN time is subtracted from the clock
+// var nextQuestion = questions[questionsIndex++];
+// Determine if User selection is right/wrong
 
 
 
-// WHEN all questions are answered or the timer reaches 0
+// if wrong, deduct time from timer
+
+
+
+// Show next question
+
+
+
+// Show score 
+
+
+
+//add initials Save score in localStorage 
+
+
+
+// Switch to High Score page
+
+
+
 function endQuiz() {
     if (counter === 0) {
         clearInterval;
     }
- }
+}
 
 
-// THEN the game is over
-
-
-
-// WHEN the game is over
-
-// THEN I can save my initials and score
+buttonEl.addEventListener("click", selectAnswer)
 startEl.addEventListener("click", startQuiz)
 //
 // 
